@@ -18,6 +18,6 @@ h1 {
 </head>
 <body>
 	<h1 th:text="#{content.title}"></h1>
-	<p th:text="#{content.message}"></p>
+	<p><a th:href="@{'/home/' + ${param.id[0]}}">link</a></p>
 </body>
 </html>
