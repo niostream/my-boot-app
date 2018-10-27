@@ -9,16 +9,36 @@ import org.springframework.web.bind.annotation.RequestParam;
 @Controller
 public class HeloController {
 	
-	@RequestMapping(value = "/", method = RequestMethod.GET)
+	@RequestMapping(value="/", method=RequestMethod.GET)
 	public String index(Model model) {
-		model.addAttribute("msg", "お名前を書いて送信してください。");
+		model.addAttribute("msg", "フォームを送信してください。");
 		return "index";
 	}
 	
-	@RequestMapping(value = "/", method = RequestMethod.POST)
-	public String send(@RequestParam("text1") String str, Model model) {
-		model.addAttribute("msg", "こんにちは、" + str + "さん!");
-		model.addAttribute("value", str);
+	@RequestMapping(value="/", method=RequestMethod.POST)
+	public String send(
+			@RequestParam(value="check1", required=false) boolean check1,
+			@RequestParam(value="radio1", required=false) String radio1,
+			@RequestParam(value="select1", required=false) String select1,
+			@RequestParam(value="select2", required=false) String[] select2,
+			Model model) {
+		
+		String res = "";
+		try {
+			res = "check1: " + check1 + "\nradio1: " + radio1 + "\nselect1: " + select1 + "\nselect2: ";
+		} catch (NullPointerException e) {
+			
+		}
+		try {
+			res += select2[0];
+			for (int i = 1; i < select2.length; i++) {
+				res += ", " + select2[i];
+			}
+		} catch (NullPointerException e) {
+			res += "null";
+		}
+		
+		model.addAttribute("msg", res);
 		return "index";
 	}
 	
