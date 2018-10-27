@@ -12,13 +12,16 @@ public class HeloController {
 		return "Hello Spring-Boot World!";
 	}
 	
-	@RequestMapping("/{num}")
-	public String index(@PathVariable int num) {
-		int res = 0;
-		for (int i = 1; i <= num; i++) {
-			res += i;
-		}
-		return "total: " + res;
+	String[] names = {
+			"tuyano", "hanako", "taro", "sachiko", "ichiro"
+	};
+	String[] mails = {
+			"syoda@tuuyano.com", "hanako@flower", "taro@yamada", "sachiko@happy", "ichiro@baseball"
+	};
+	
+	@RequestMapping("/{id}")
+	public DataObject index(@PathVariable int id) {
+		return new DataObject(id, names[id], mails[id]);
 	}
 	
 }
