@@ -14,10 +14,28 @@ h1 {
 	font-weight: bold;
 	color: gray;
 }
+tr {
+	margin: 5px;
+}
+th {
+	padding: 5px;
+	color: white;
+	background: darkgray;
+}
+td {
+	padding: 5px;
+	color: black;
+	background: #f0f0f0;
+}
 </style>
 </head>
 <body>
 	<h1 th:text="#{content.title}"></h1>
-	<p><a th:href="@{'/home/' + ${param.id[0]}}">link</a></p>
+	<p th:text="${msg}">message.</p>
+	<table th:object="${object}">
+		<tr><th>ID</th><td th:text="*{id}"></td></tr>
+		<tr><th>NAME</th><td th:text="*{name}"></td></tr>
+		<tr><th>MAIL</th><td th:text="*{value}"></td></tr>
+	</table>
 </body>
 </html>

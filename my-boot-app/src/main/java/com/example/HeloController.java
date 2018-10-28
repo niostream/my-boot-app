@@ -1,13 +1,17 @@
 package com.example;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 public class HeloController {
 	
 	@RequestMapping("/")
-	public String index() {
+	public String index(Model model) {
+		model.addAttribute("msg", "current data.");
+		DataObject obj = new DataObject(123, "hanako", "hanako@flower");
+		model.addAttribute("object", obj);
 		return "index";
 	}
 	
