@@ -11,9 +11,9 @@ public class HeloController {
 	@RequestMapping("/{id}")
 	public String index(@PathVariable int id, Model model) {
 		model.addAttribute("id", id);
-		model.addAttribute("check", id % 2 == 0);
-		model.addAttribute("trueVal", "Even number!");
-		model.addAttribute("falseVal", "Odd number...");
+		model.addAttribute("check", id >= 0);
+		model.addAttribute("trueVal", "POSITIVE!");
+		model.addAttribute("falseVal", "negative...");
 		return "index";
 	}
 	
