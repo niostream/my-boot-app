@@ -9,9 +9,7 @@ public class HeloController {
 	
 	@RequestMapping("/")
 	public String index(Model model) {
-		model.addAttribute("msg", "current data.");
-		DataObject obj = new DataObject(123, "hanako", "hanako@flower");
-		model.addAttribute("object", obj);
+		model.addAttribute("msg", "message 1<hr>message 2<br>message 3");
 		return "index";
 	}
 	
