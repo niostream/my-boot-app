@@ -8,12 +8,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 public class HeloController {
 	
-	@RequestMapping("/{id}")
-	public String index(@PathVariable int id, Model model) {
-		model.addAttribute("id", id);
-		model.addAttribute("check", id >= 0);
-		model.addAttribute("trueVal", "POSITIVE!");
-		model.addAttribute("falseVal", "negative...");
+	@RequestMapping("/{month}")
+	public String index(@PathVariable int month, Model model) {
+		int m = Math.abs(month) % 12;
+		m = m == 0 ? 12 : m;
+		model.addAttribute("month", month);
+		model.addAttribute("check", Math.floor(m / 3));
 		return "index";
 	}
 	
