@@ -1,19 +1,21 @@
 package com.example;
 
+import java.util.ArrayList;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 public class HeloController {
 	
-	@RequestMapping("/{month}")
-	public String index(@PathVariable int month, Model model) {
-		int m = Math.abs(month) % 12;
-		m = m == 0 ? 12 : m;
-		model.addAttribute("month", month);
-		model.addAttribute("check", Math.floor(m / 3));
+	@RequestMapping("/")
+	public String index(Model model) {
+		ArrayList<String[]> data = new ArrayList<String[]>();
+		data.add(new String[]{"taro", "taro@yamada", "090-999-999"});
+		data.add(new String[]{"hanako", "hanako@flower", "080-888-888"});
+		data.add(new String[]{"sachiko", "sachiko@happy", "080-888-888"});
+		model.addAttribute("data", data);
 		return "index";
 	}
 	
