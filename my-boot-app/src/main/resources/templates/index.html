@@ -28,18 +28,12 @@ td {
 	background: #f0f0f0;
 }
 </style>
-<script type="text/javascript" th:inline="javascript">
-function action() {
-	var val = document.getElementById("text1").value;
-	var res = parseInt(val * ((100 + /*[[${tax}]]*/) / 100));
-	document.getElementById("msg").innerHTML = "include tax: " + res;
-}
-</script>
+<style type="text/css" th:include="part :: frag_style"></style>
 </head>
 <body>
 	<h1 th:text="#{content.title}"></h1>
-	<p id="msg"></p>
-	<input type="text" id="text1" />
-	<button onclick="action()">click</button>
+	<div th:include="part :: frag_body">
+		<p>this is original content.</p>
+	</div>
 </body>
 </html>
