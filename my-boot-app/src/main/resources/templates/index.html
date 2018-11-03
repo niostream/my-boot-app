@@ -41,21 +41,27 @@ td {
 	<h1 th:text="#{content.title}"></h1>
 	<p th:text="${msg}"></p>
 	<form method="post" action="/" th:object="${formModel}">
-		<ul>
-			<li th:each="error : ${#fields.detailedErrors()}" class="err" th:text="${error.message}" />
-		</ul>
 		<table>
 			<tr>
 				<td><label for="name">名前</label></td>
-				<td><input type="text" name="name" th:field="*{name}" /></td>
+				<td>
+					<input type="text" name="name" th:field="*{name}" th:errorclass="err" />
+					<div th:if="${#fields.hasErrors('name')}" th:errors="*{name}" th:errorclass="err"></div>
+				</td>
 			</tr>
 			<tr>
 				<td><label for="age">年齢</label></td>
-				<td><input type="text" name="age" th:field="*{age}" /></td>
+				<td>
+					<input type="text" name="age" th:field="*{age}" th:errorclass="err" />
+					<div th:if="${#fields.hasErrors('age')}" th:errors="*{age}" th:errorclass="err"></div>
+				</td>
 			</tr>
 			<tr>
 				<td><label for="mail">メール</label></td>
-				<td><input type="text" name="mail" th:field="*{mail}" /></td>
+				<td>
+					<input type="text" name="mail" th:field="*{mail}" th:errorclass="err" />
+					<div th:if="${#fields.hasErrors('mail')}" th:errors="*{mail}" th:errorclass="err"></div>
+				</td>
 			</tr>
 			<tr>
 				<td><label for="memo">メモ</label></td>
