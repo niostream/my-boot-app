@@ -4,6 +4,9 @@ import java.util.List;
 import java.util.Optional;
 
 import javax.annotation.PostConstruct;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -25,11 +28,16 @@ public class HeloController {
 	@Autowired
 	MyDataRepository repository;
 	
+	@PersistenceContext
+	EntityManager entityManager;
+	
+	MyDataDaoImpl myDataDaoImpl;
+	
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String index(@ModelAttribute("formModel") MyData myData, Model model) {
 		model.addAttribute("msg", "this is sample content.");
 		model.addAttribute("formModel", myData);
-		List<MyData> list = repository.findAll();
+		List<MyData> list = myDataDaoImpl.getAll();
 		model.addAttribute("datalist", list);
 		return "index";
 	}
@@ -78,8 +86,34 @@ public class HeloController {
 		return "redirect:/";
 	}
 	
+	@RequestMapping(value = "/find", method = RequestMethod.GET)
+	public String find(Model model) {
+		model.addAttribute("title", "find page");
+		model.addAttribute("msg", "MyDataのサンプルです。");
+		model.addAttribute("value", "");
+		List<MyData> list = myDataDaoImpl.getAll();
+		model.addAttribute("datalist", list);
+		return "find";
+	}
+	
+	@RequestMapping(value = "/find", method = RequestMethod.POST)
+	public String search(HttpServletRequest request, Model model) {
+		String param = request.getParameter("fstr");
+		if ("".equals(param)) {
+			return "redirect:/find";
+		} else {
+			model.addAttribute("title", "Find result");
+			model.addAttribute("msg", "[" + param + "]の検索結果");
+			model.addAttribute("value", param);
+			List<MyData> list = myDataDaoImpl.find(param);
+			model.addAttribute("datalist", list);
+			return "find";
+		}
+	}
+	
 	@PostConstruct
 	public void init() {
+		myDataDaoImpl = new MyDataDaoImpl(entityManager);
 		MyData d1 = new MyData();
 		d1.setName("tuyano");
 		d1.setAge(123);
