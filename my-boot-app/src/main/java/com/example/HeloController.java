@@ -34,10 +34,10 @@ public class HeloController {
 	MyDataDaoImpl myDataDaoImpl;
 	
 	@RequestMapping(value = "/", method = RequestMethod.GET)
-	public String index(@ModelAttribute("formModel") MyData myData, Model model) {
-		model.addAttribute("msg", "this is sample content.");
-		model.addAttribute("formModel", myData);
-		List<MyData> list = myDataDaoImpl.getAll();
+	public String index(Model model) {
+		model.addAttribute("title", "Find Page");
+		model.addAttribute("msg", "MyDataのサンプルです。");
+		List<MyData> list = repository.findAllOrderByName();
 		model.addAttribute("datalist", list);
 		return "index";
 	}
