@@ -18,12 +18,16 @@ import lombok.Data;
 
 @Entity
 @Table(name = "mydata")
-@NamedQueries(
+@NamedQueries({
 		@NamedQuery(
 				name = "findWithName",
 				query = "from MyData where name like :fname"
-		)	
-)
+		),	
+		@NamedQuery(
+				name = "findByAge",
+				query = "from MyData where age > :min and age < :max"
+		)
+})
 @Data
 public class MyData {
 	

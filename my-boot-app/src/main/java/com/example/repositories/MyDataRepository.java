@@ -13,10 +13,15 @@ import com.example.MyData;
 public interface MyDataRepository extends JpaRepository<MyData, Long>{
 	
 	public Optional<MyData> findById(Long id);
+	
 	public List<MyData> findByNameLike(String name);
+	
 	public List<MyData> findByIdIsNotNullOrderByIdDesc();
+	
 	public List<MyData> findByAgeGreaterThan(Integer age);
+	
 	public List<MyData> findByAgeBetween(Integer age1, Integer age2);
+	
 	@Query("SELECT d FROM MyData d ORDER BY d.name")
 	public List<MyData> findAllOrderByName();
 
