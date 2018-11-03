@@ -1,5 +1,7 @@
 package com.example;
 
+import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -7,6 +9,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.Max;
@@ -53,5 +56,9 @@ public class MyData {
 	@Column(nullable = true)
 	@Phone(onlyNumber = true)
 	private String memo;
+	
+	@OneToMany
+	@Column(nullable = true)
+	private List<MyData> msgdatas;
 
 }
