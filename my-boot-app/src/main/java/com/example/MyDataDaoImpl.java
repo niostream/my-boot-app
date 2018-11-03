@@ -4,6 +4,9 @@ import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
 
 import org.springframework.stereotype.Repository;
 
@@ -27,9 +30,12 @@ public class MyDataDaoImpl implements MyDataDao<MyData> {
 	}
 
 	public List<MyData> getAll() {
-		Query query = entityManager.createQuery("from MyData");
-		List<MyData> list = query.getResultList();
-		entityManager.close();
+		List<MyData> list = null;
+		CriteriaBuilder builder = entityManager.getCriteriaBuilder();
+		CriteriaQuery<MyData> query = builder.createQuery(MyData.class);
+		Root<MyData> root = query.from(MyData.class);
+		query.select(root).orderBy(builder.asc(root.get("name")));
+		list = entityManager.createQuery(query).getResultList();
 		return list;
 	}
 
@@ -42,15 +48,12 @@ public class MyDataDaoImpl implements MyDataDao<MyData> {
 	}
 
 	public List<MyData> find(String fstr) {
+		CriteriaBuilder builder = entityManager.getCriteriaBuilder();
+		CriteriaQuery<MyData> query = builder.createQuery(MyData.class);
+		Root<MyData> root = query.from(MyData.class);
+		query.select(root).where(builder.equal(root.get("name"), fstr));
 		List<MyData> list = null;
-		Long fid = 0L;
-		try {
-			fid = Long.parseLong(fstr);
-		} catch (NumberFormatException e) {
-//			e.printStackTrace();
-		}
-		Query query = entityManager.createNamedQuery("findWithName").setParameter("fname", "%" + fstr + "%");
-		list = query.getResultList();
+		list = entityManager.createQuery(query).getResultList();
 		return list;
 	}
 

@@ -37,7 +37,7 @@ public class HeloController {
 	public String index(Model model) {
 		model.addAttribute("title", "Find Page");
 		model.addAttribute("msg", "MyDataのサンプルです。");
-		List<MyData> list = repository.findByAge(10, 40);
+		List<MyData> list = myDataDaoImpl.getAll();
 		model.addAttribute("datalist", list);
 		return "index";
 	}
