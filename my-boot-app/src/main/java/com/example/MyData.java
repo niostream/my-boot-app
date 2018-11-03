@@ -39,7 +39,7 @@ public class MyData {
 	private Integer age;
 	
 	@Column(nullable = true)
-	@Phone
+	@Phone(onlyNumber = true)
 	private String memo;
 
 }
