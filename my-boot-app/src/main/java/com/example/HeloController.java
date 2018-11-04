@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.example.repositories.MyDataMongoRepository;
 import com.example.repositories.MyDataRepository;
 
 @Controller
@@ -30,6 +31,9 @@ public class HeloController {
 	@Autowired
 	private MyDataService service;
 	
+	@Autowired
+	MyDataMongoRepository myDataMongoRepository;
+	
 //	@PersistenceContext
 	EntityManager entityManager;
 	
@@ -38,25 +42,18 @@ public class HeloController {
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String index(Model model) {
 		model.addAttribute("title", "Find Page");
-		model.addAttribute("msg", "MyDataのサンプルです。");
-		List<MyData> list = service.getAll();
+		model.addAttribute("msg", "MyDataMongoのサンプルです。");
+		List<MyDataMongo> list = myDataMongoRepository.findAll();
 		model.addAttribute("datalist", list);
 		return "index";
 	}
 	
 	@RequestMapping(value = "/", method = RequestMethod.POST)
 	@Transactional(readOnly = false)
-	public String form(@ModelAttribute("formModel") @Validated MyData myData, BindingResult result,
-			Model model) {
-		if (!result.hasErrors()) {
-			repository.saveAndFlush(myData);
-			return "redirect:/";
-		} else {
-			model.addAttribute("msg", "sorry, error is occurede...");
-			List<MyData> list = repository.findAll();
-			model.addAttribute("datalist", list);
-			return "index";
-		}
+	public String form(@RequestParam("name") String name, @RequestParam("memo") String memo, Model model) {
+		MyDataMongo myDataMongo = new MyDataMongo(name, memo);
+		myDataMongoRepository.save(myDataMongo);
+		return "redirect:/";
 	}
 	
 	@RequestMapping(value = "/edit/{id}", method = RequestMethod.GET)
@@ -93,21 +90,20 @@ public class HeloController {
 		model.addAttribute("title", "Find page");
 		model.addAttribute("msg", "MyDataのサンプルです。");
 		model.addAttribute("value", "");
-		List<MyData> list = service.getAll();
+		List<MyDataMongo> list = myDataMongoRepository.findAll();
 		model.addAttribute("datalist", list);
 		return "find";
 	}
 	
 	@RequestMapping(value = "/find", method = RequestMethod.POST)
-	public String search(HttpServletRequest request, Model model) {
-		String param = request.getParameter("fstr");
+	public String search(@RequestParam("find") String param, Model model) {
 		if ("".equals(param)) {
 			return "redirect:/find";
 		} else {
 			model.addAttribute("title", "Find result");
 			model.addAttribute("msg", "[" + param + "]の検索結果");
 			model.addAttribute("value", param);
-			List<MyData> list = service.find(param);
+			List<MyDataMongo> list = myDataMongoRepository.findByName(param);
 			model.addAttribute("datalist", list);
 			return "find";
 		}
