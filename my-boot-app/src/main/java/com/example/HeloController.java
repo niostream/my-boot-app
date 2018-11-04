@@ -5,7 +5,6 @@ import java.util.Optional;
 
 import javax.annotation.PostConstruct;
 import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +27,10 @@ public class HeloController {
 	@Autowired
 	MyDataRepository repository;
 	
-	@PersistenceContext
+	@Autowired
+	private MyDataService service;
+	
+//	@PersistenceContext
 	EntityManager entityManager;
 	
 	MyDataDaoImpl myDataDaoImpl;
@@ -37,7 +39,7 @@ public class HeloController {
 	public String index(Model model) {
 		model.addAttribute("title", "Find Page");
 		model.addAttribute("msg", "MyDataのサンプルです。");
-		List<MyData> list = myDataDaoImpl.getAll();
+		List<MyData> list = service.getAll();
 		model.addAttribute("datalist", list);
 		return "index";
 	}
@@ -88,10 +90,10 @@ public class HeloController {
 	
 	@RequestMapping(value = "/find", method = RequestMethod.GET)
 	public String find(Model model) {
-		model.addAttribute("title", "find page");
+		model.addAttribute("title", "Find page");
 		model.addAttribute("msg", "MyDataのサンプルです。");
 		model.addAttribute("value", "");
-		List<MyData> list = myDataDaoImpl.getAll();
+		List<MyData> list = service.getAll();
 		model.addAttribute("datalist", list);
 		return "find";
 	}
@@ -105,7 +107,7 @@ public class HeloController {
 			model.addAttribute("title", "Find result");
 			model.addAttribute("msg", "[" + param + "]の検索結果");
 			model.addAttribute("value", param);
-			List<MyData> list = myDataDaoImpl.find(param);
+			List<MyData> list = service.find(param);
 			model.addAttribute("datalist", list);
 			return "find";
 		}
