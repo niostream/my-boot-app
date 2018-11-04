@@ -40,6 +40,11 @@ td {
 <body>
 	<h1 th:text="#{content.title}"></h1>
 	<p th:text="${msg}"></p>
+	<div>
+		<a my:mypage="${datalist.getNumber() - 1}">&lt;&lt;prev</a>
+		|
+		<a my:mypage="${datalist.getNumber() + 1}">next&gt;&gt;</a>
+	</div>
 	<table>
 		<tr>
 			<th>ID</th>

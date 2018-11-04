@@ -1,5 +1,6 @@
 package com.example;
 
+import java.awt.print.Pageable;
 import java.util.List;
 import java.util.Optional;
 
@@ -8,6 +9,7 @@ import javax.persistence.EntityManager;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
@@ -111,6 +113,15 @@ public class HeloController {
 			model.addAttribute("datalist", list);
 			return "find";
 		}
+	}
+	
+	@RequestMapping(value = "/page", method = RequestMethod.GET)
+	public String page(Model model, Pageable pageable) {
+		model.addAttribute("title", "Find Page");
+		model.addAttribute("msg", "MyDataのサンプルです。");
+		Page<MyData> list = repository.findAll(pageable);
+		model.addAttribute("datalist", list);
+		return "index";
 	}
 	
 	@PostConstruct
