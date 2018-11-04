@@ -30,6 +30,9 @@ public class HeloController {
 	@Autowired
 	private MyDataService service;
 	
+	@Autowired
+	MyDataBean myDataBean;
+	
 //	@PersistenceContext
 	EntityManager entityManager;
 	
@@ -111,6 +114,15 @@ public class HeloController {
 			model.addAttribute("datalist", list);
 			return "find";
 		}
+	}
+	
+	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
+	public String indexById(@PathVariable long id, Model model) {
+		model.addAttribute("title", "Pickup Page");
+		String table = "<table>" + myDataBean.getTableTagById(id) + "</table>";
+		model.addAttribute("msg", "pickup data id = " + id);
+		model.addAttribute("data", table);
+		return "pickup";
 	}
 	
 	@PostConstruct
